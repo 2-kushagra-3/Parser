@@ -1,0 +1,24 @@
+from enum import Enum
+
+class MessageField(Enum):
+    START_MESSAGE_INDICATOR = 1
+    MESSAGE_TYPE = 2
+    SEQUENCE_NUMBER = 6
+    EPN_VERSION_CONTROL = 3
+    SUBSCRIBER_ID = 4
+    CONNECTION_ID = 4
+    INTERNAL_ID = 16
+    MESSAGE_ID = 11
+    ACKNOWLEDGMENT_CODE = 4
+    EPN_ACK_TIMESTAMP = 6
+    ORIGINAL_SEQUENCE = 6
+    TEXT_TYPE = 2
+    MESSAGE_TEXT = 130
+    ADDITIONAL_FIELD_1 = 10
+    ADDITIONAL_FIELD_2 = 10
+    END_MESSAGE_INDICATOR = 1
+
+class MessageType(Enum):
+    AA = "AA"
+    TX = "TX"
+    DEFAULT = "DEFAULT"

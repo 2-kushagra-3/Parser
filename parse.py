@@ -66,7 +66,7 @@ class MessageParser:
 
     def parse_string(self, input_string):
 
-        
+
         input_string = input_string.replace("\n", "")
 
 
@@ -100,8 +100,10 @@ class MessageParser:
                 current_message += input_string[i]
 
 # Sample input string
-sample_string = """^BTX0000010020107110722START OF BUSINESS DAY 06182024^C
-^BAA00009700201072107                061800016180200152554000034^C"""
+sample_string = """^BTX00000100201
+07110722START OF BUSINESS DAY 06182024^C
+^BAA00009700201072107           
+     061800016180200152554000034^C"""
 # ^BLS0000010020107110722^C
 # ^BON0000010020107110722^C
 # ^BDK0000010020107110722^C
