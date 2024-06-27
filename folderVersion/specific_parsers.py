@@ -1,69 +1,60 @@
-from enums import MessageField
+# specific_parsers.py
+
+from enums import MessageField, MessageType
 from common_parser import parse_common
 
-def parse_AA(message, parsed_messages):
-    parsed_message = parse_common(message)
-    internal_id_length = 16
-    message_id_length = 11
-    acknowledgment_code_length = 4
-    epn_ack_timestamp_length = 6
-    original_sequence_length = 6
+# Define field lengths for common fields
+COMMON_FIELD_LENGTHS = {
+    MessageField.START_MESSAGE_INDICATOR: 1,
+    MessageField.MESSAGE_TYPE: 2,
+    MessageField.SEQUENCE_NUMBER: 6,
+    MessageField.EPN_VERSION_CONTROL: 3,
+    MessageField.SUBSCRIBER_ID: 4,
+    MessageField.CONNECTION_ID: 4
+}
 
-    start = 20
-    parsed_message.update({
-        MessageField.INTERNAL_ID: message[start:start + internal_id_length],
-        MessageField.MESSAGE_ID: message[start + internal_id_length:start + internal_id_length + message_id_length],
-        MessageField.ACKNOWLEDGMENT_CODE: message[start + internal_id_length + message_id_length:start + internal_id_length + message_id_length + acknowledgment_code_length],
-        MessageField.EPN_ACK_TIMESTAMP: message[start + internal_id_length + message_id_length + acknowledgment_code_length:start + internal_id_length + message_id_length + acknowledgment_code_length + epn_ack_timestamp_length],
-        MessageField.ORIGINAL_SEQUENCE: message[start + internal_id_length + message_id_length + acknowledgment_code_length + epn_ack_timestamp_length:start + internal_id_length + message_id_length + acknowledgment_code_length + epn_ack_timestamp_length + original_sequence_length],
-        MessageField.END_MESSAGE_INDICATOR: "^C"
+def parse_AA(message, parsed_messages):
+    field_lengths = COMMON_FIELD_LENGTHS.copy()
+    field_lengths.update({
+        MessageField.INTERNAL_ID: 16,
+        MessageField.MESSAGE_ID: 11,
+        MessageField.ACKNOWLEDGMENT_CODE: 4,
+        MessageField.EPN_ACK_TIMESTAMP: 6,
+        MessageField.ORIGINAL_SEQUENCE: 5,
+        MessageField.END_MESSAGE_INDICATOR: 1
     })
+
+    parsed_message = parse_common(message, field_lengths)
     parsed_messages.append(parsed_message)
 
 def parse_TX(message, parsed_messages):
-    parsed_message = parse_common(message)
-    text_type_length = 2
-    message_text_length = 130  # Assuming maximum length of message text is 130
-
-    start = 20
-    parsed_message.update({
-        MessageField.TEXT_TYPE: message[start:start + text_type_length],
-        MessageField.MESSAGE_TEXT: message[start + text_type_length:start + text_type_length + message_text_length],
-        MessageField.END_MESSAGE_INDICATOR: "^C"
-    })
+    parsed_message = parse_common(message, COMMON_FIELD_LENGTHS)
     parsed_messages.append(parsed_message)
 
 def parse_ON(message, parsed_messages):
-    parsed_message = parse_common(message)
-    # Placeholder parser for ON message type
+    parsed_message = parse_common(message, COMMON_FIELD_LENGTHS)
     parsed_messages.append(parsed_message)
 
 def parse_DK(message, parsed_messages):
-    parsed_message = parse_common(message)
-    # Placeholder parser for DK message type
+    parsed_message = parse_common(message, COMMON_FIELD_LENGTHS)
     parsed_messages.append(parsed_message)
 
 def parse_CC(message, parsed_messages):
-    parsed_message = parse_common(message)
-    # Placeholder parser for CC message type
+    parsed_message = parse_common(message, COMMON_FIELD_LENGTHS)
     parsed_messages.append(parsed_message)
 
 def parse_CX(message, parsed_messages):
-    parsed_message = parse_common(message)
-    # Placeholder parser for CX message type
+    parsed_message = parse_common(message, COMMON_FIELD_LENGTHS)
     parsed_messages.append(parsed_message)
 
 def parse_LS(message, parsed_messages):
-    parsed_message = parse_common(message)
-    # Placeholder parser for LS message type
+    parsed_message = parse_common(message, COMMON_FIELD_LENGTHS)
     parsed_messages.append(parsed_message)
 
 def parse_HA(message, parsed_messages):
-    parsed_message = parse_common(message)
-    # Placeholder parser for HA message type
+    parsed_message = parse_common(message, COMMON_FIELD_LENGTHS)
     parsed_messages.append(parsed_message)
 
 def parse_default(message, parsed_messages):
-    parsed_message = parse_common(message)
-    # Placeholder parser for unknown message types
+    parsed_message = parse_common(message, COMMON_FIELD_LENGTHS)
     parsed_messages.append(parsed_message)

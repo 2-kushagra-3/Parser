@@ -1,10 +1,12 @@
+# message_parser.py
+
 from enums import MessageType
 from specific_parsers import parse_AA, parse_TX, parse_ON, parse_DK, parse_CC, parse_CX, parse_LS, parse_HA, parse_default
+import logging
 
 class MessageParser:
     def __init__(self):
         self.parsed_messages = []
-
         self.parsers = {
             MessageType.AA: parse_AA,
             MessageType.TX: parse_TX,
@@ -17,18 +19,30 @@ class MessageParser:
             MessageType.DEFAULT: parse_default
         }
 
+        # Configure logging
+        logging.basicConfig(level=logging.DEBUG)
+        self.logger = logging.getLogger(__name__)
+
     def parse_string(self, input_string):
         current_message = ""
         in_message = False
 
-        for i in range(len(input_string) - 1):
-            if input_string[i:i + 2] == "^B" and not in_message:
+        for char in input_string:
+            if char == "*":
                 in_message = True
                 current_message = ""
-            elif input_string[i:i + 2] == "^C" and in_message:
+            elif char == "^" and in_message:
                 in_message = False
-                message_type = current_message[1:3]
-                parser = self.parsers.get(MessageType(message_type), self.parsers[MessageType.DEFAULT])
-                parser(current_message + "^C", self.parsed_messages)
+                if len(current_message) > 20:  # Ensure current_message is valid
+                    message_type = current_message[0:2]  # Extract message type
+                    self.logger.debug(f"Extracted message_type: {message_type}")
+                    
+                    try:
+                        current_message = "*"+current_message+"^"
+                        parsed_type = MessageType(message_type)
+                        parser = self.parsers.get(parsed_type, self.parsers[MessageType.DEFAULT])
+                        parser(current_message, self.parsed_messages)
+                    except ValueError:
+                        self.logger.error(f"Invalid message_type: {message_type}")
             elif in_message:
-                current_message += input_string[i]
+                current_message += char
