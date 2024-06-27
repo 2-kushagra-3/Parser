@@ -95,8 +95,8 @@ class MessageParser:
                 current_message += input_string[i]
 
 # Sample input string
-sample_string = """^BTX0000010020107110722START OF BUSINESS DAY 06182024^C"""
-# """^BAA00009700201072107                061800016180200152554000034^C
+sample_string = """^BTX0000010020107110722START OF BUSINESS DAY 06182024^C
+^BAA00009700201072107                061800016180200152554000034^C"""
 # ^BLS0000010020107110722^C
 # ^BON0000010020107110722^C
 # ^BDK0000010020107110722^C
@@ -117,4 +117,7 @@ parsed_messages = parser.parsed_messages
 
 # Print the parsed messages
 for i, message in enumerate(parsed_messages):
-    print(f"Message {i+1}: {message}")
+    print(f"Message {i+1}:")
+    for key, value in message.items():
+        print(f"{key}: {value}")
+    print()
