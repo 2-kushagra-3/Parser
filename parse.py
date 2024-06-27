@@ -65,6 +65,11 @@ class MessageParser:
         self.parsed_messages.append(parsed_message)
 
     def parse_string(self, input_string):
+
+        
+        input_string = input_string.replace("\n", "")
+
+
         current_message = ""
         in_message = False
 
