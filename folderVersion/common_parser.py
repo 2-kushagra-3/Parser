@@ -1,4 +1,3 @@
-# common_parser.py
 
 from enums import MessageField
 

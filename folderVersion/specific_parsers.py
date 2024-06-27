@@ -1,9 +1,7 @@
-# specific_parsers.py
 
 from enums import MessageField, MessageType
 from common_parser import parse_common
 
-# Define field lengths for common fields
 COMMON_FIELD_LENGTHS = {
     MessageField.START_MESSAGE_INDICATOR: 1,
     MessageField.MESSAGE_TYPE: 2,

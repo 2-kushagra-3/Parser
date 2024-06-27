@@ -5,7 +5,6 @@ from message_parser import MessageParser
 
 file_path = r"input.txt"
 
-# Check if the file exists
 if not os.path.exists(file_path):
     print(f"File not found: {file_path}")
 else:
