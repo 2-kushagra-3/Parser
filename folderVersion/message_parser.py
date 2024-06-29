@@ -1,4 +1,3 @@
-
 from enums import MessageType
 from specific_parsers import parse_AA, parse_TX, parse_ON, parse_DK, parse_CC, parse_CX, parse_LS, parse_HA, parse_default
 

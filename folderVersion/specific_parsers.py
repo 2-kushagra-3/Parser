@@ -1,4 +1,3 @@
-
 from enums import MessageField, MessageType
 from common_parser import parse_common
 
@@ -21,7 +20,6 @@ def parse_AA(message, parsed_messages):
         MessageField.ORIGINAL_SEQUENCE: 5,
         MessageField.END_MESSAGE_INDICATOR: 1
     })
-
     parsed_message = parse_common(message, field_lengths)
     parsed_messages.append(parsed_message)
 
