@@ -1,4 +1,3 @@
-
 from enums import MessageField
 
 def parse_common(message, field_lengths):

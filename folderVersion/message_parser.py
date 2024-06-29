@@ -20,8 +20,7 @@ class MessageParser:
 
     def parse_string(self, input_string):
         current_message = ""
-        in_message = False
-
+        in_message = False        
         for char in input_string:
             if char == "*":
                 in_message = True
@@ -30,9 +29,6 @@ class MessageParser:
                 in_message = False
                 if len(current_message) > 20: 
                     message_type = current_message[0:2]  
-                  
-                    
-
                     current_message = "*"+current_message+"^"
                     parsed_type = MessageType(message_type)
                     parser = self.parsers.get(parsed_type, self.parsers[MessageType.DEFAULT])

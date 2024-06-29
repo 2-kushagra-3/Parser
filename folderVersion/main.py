@@ -1,5 +1,3 @@
-# main.py
-
 import os
 from message_parser import MessageParser
 
