@@ -1,5 +1,5 @@
 from enums import MessageField, MessageType
-from common_parser import parse_common_with_pools
+from common_parser import parse_message
 
 COMMON_FIELD_LENGTHS = {
     MessageField.START_MESSAGE_INDICATOR: 1,
@@ -20,19 +20,23 @@ def parse_AA(message, parsed_messages):
         MessageField.ORIGINAL_SEQUENCE: 5,
         MessageField.END_MESSAGE_INDICATOR: 1
     })
-    parsed_message = parse_common_with_pools(message, field_lengths)
+    decimal_fields = {
+        MessageField.ORIGINAL_SEQUENCE: 4,
+        MessageField.EPN_ACK_TIMESTAMP: 4
+    }
+    parsed_message = parse_message(message, field_lengths, None, decimal_fields)
     parsed_messages.append(parsed_message)
 
 def parse_TX(message, parsed_messages):
-    parsed_message = parse_common_with_pools(message, COMMON_FIELD_LENGTHS)
+    parsed_message = parse_message(message, COMMON_FIELD_LENGTHS)
     parsed_messages.append(parsed_message)
 
 def parse_ON(message, parsed_messages):
-    parsed_message = parse_common_with_pools(message, COMMON_FIELD_LENGTHS)
+    parsed_message = parse_message(message, COMMON_FIELD_LENGTHS)
     parsed_messages.append(parsed_message)
 
 def parse_DK(message, parsed_messages):
-    parsed_message = parse_common_with_pools(message, COMMON_FIELD_LENGTHS)
+    parsed_message = parse_message(message, COMMON_FIELD_LENGTHS)
     parsed_messages.append(parsed_message)
 
 def parse_CC(message, parsed_messages):
@@ -51,21 +55,21 @@ def parse_CC(message, parsed_messages):
         MessageField.FIELD_8: 9,
         MessageField.FIELD_10: 10
     }
-    parsed_message = parse_common_with_pools(message, field_lengths, pool_field_lengths, decimal_fields)
+    parsed_message = parse_message(message, field_lengths, pool_field_lengths, decimal_fields)
     parsed_messages.append(parsed_message)
 
 def parse_CX(message, parsed_messages):
-    parsed_message = parse_common_with_pools(message, COMMON_FIELD_LENGTHS)
+    parsed_message = parse_message(message, COMMON_FIELD_LENGTHS)
     parsed_messages.append(parsed_message)
 
 def parse_LS(message, parsed_messages):
-    parsed_message = parse_common_with_pools(message, COMMON_FIELD_LENGTHS)
+    parsed_message = parse_message(message, COMMON_FIELD_LENGTHS)
     parsed_messages.append(parsed_message)
 
 def parse_HA(message, parsed_messages):
-    parsed_message = parse_common_with_pools(message, COMMON_FIELD_LENGTHS)
+    parsed_message = parse_message(message, COMMON_FIELD_LENGTHS)
     parsed_messages.append(parsed_message)
 
 def parse_default(message, parsed_messages):
-    parsed_message = parse_common_with_pools(message, COMMON_FIELD_LENGTHS)
+    parsed_message = parse_message(message, COMMON_FIELD_LENGTHS)
     parsed_messages.append(parsed_message)

@@ -3,7 +3,7 @@ from enums import MessageField
 def add_decimal(value, position):
     return value[:position] + '.' + value[position:]
 
-def parse_common_with_pools(message, field_lengths, pool_field_lengths=None, decimal_fields=None):
+def parse_message(message, field_lengths, pool_field_lengths=None, decimal_fields=None):
     parsed_message = {}
     start_idx = 0
     num_pools = 0
