@@ -17,7 +17,7 @@ def parse_AA(message, parsed_messages):
         MessageField.MESSAGE_ID: 11,
         MessageField.ACKNOWLEDGMENT_CODE: 4,
         MessageField.EPN_ACK_TIMESTAMP: 6,
-        MessageField.ORIGINAL_SEQUENCE: 5,
+        MessageField.ORIGINAL_SEQUENCE: 6,
         MessageField.END_MESSAGE_INDICATOR: 1
     })
     decimal_fields = {
