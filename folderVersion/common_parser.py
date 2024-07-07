@@ -7,17 +7,18 @@ def parse_message(message, field_lengths, pool_field_lengths=None, decimal_field
     parsed_message = {}
     start_idx = 0
     num_pools = 0
-    print(field_lengths)
+    # print(field_lengths)
     if decimal_fields is None:
         decimal_fields = {}
 
     for field, length in field_lengths.items():
         field_value = message[start_idx:start_idx + length]
+        print(field)
         if field in decimal_fields:
             position = decimal_fields[field]
             field_value = add_decimal(field_value, position)
         parsed_message[field] = field_value
-        print(field, " ", parsed_message[field])
+        # print(field, " ", parsed_message[field])
         if field == MessageField.NUMBER_OF_POOLS:
             num_pools = int(field_value)
         start_idx += length
