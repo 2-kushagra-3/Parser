@@ -1,3 +1,4 @@
+import os
 from config import MessageField, MessageType, COMMON_FIELD_LENGTHS, SPECIFIC_FIELD_LENGTHS, POOL_FIELD_LENGTHS, DECIMAL_FIELDS
 
 def add_decimal(value, position):
@@ -44,6 +45,7 @@ class MessageParser:
         self.parsers = {
             "AA": self.parse_AA,
             "CC": self.parse_CC,
+            # Add other parsers here if needed
             "DEFAULT": self.parse_default
         }
 
@@ -80,3 +82,32 @@ class MessageParser:
         field_lengths = COMMON_FIELD_LENGTHS
         parsed_message = parse_message(message, field_lengths)
         self.parsed_messages.append(parsed_message)
+
+def main():
+    file_path = r"input.txt"
+
+    if not os.path.exists(file_path):
+        print(f"File not found: {file_path}")
+    else:
+        with open(file_path, "r") as file:
+            sample_string = file.read()
+
+        parser = MessageParser()
+        parser.parse_string(sample_string)
+
+        parsed_messages = parser.parsed_messages
+
+        for i, message in enumerate(parsed_messages):
+            print(f"Message {i + 1}:")
+            for key, value in message.items():
+                if key == 'pools':
+                    print("  Pools:")
+                    for j, pool in enumerate(value):
+                        print(f"    Pool {j + 1}:")
+                        for pool_key, pool_value in pool.items():
+                            print(f"      {pool_key.value}: {pool_value}")
+                else:
+                    print(f"  {key.value}: {value}")
+
+if __name__ == "__main__":
+    main()
