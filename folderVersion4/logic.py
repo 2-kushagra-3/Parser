@@ -44,7 +44,6 @@ class MessageParser:
         self.parsers = {
             "AA": self.parse_AA,
             "CC": self.parse_CC,
-            # Add other parsers here if needed
             "DEFAULT": self.parse_default
         }
 
