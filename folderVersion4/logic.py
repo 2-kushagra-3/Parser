@@ -81,6 +81,7 @@ class MessageParser:
     def parse_default(self, message):
         field_lengths = COMMON_FIELD_LENGTHS
         parsed_message = parse_message(message, field_lengths)
+        parsed_message["Parsing Method"] = "Default"  # Adding message inside the parsed message
         self.parsed_messages.append(parsed_message)
 
 def main():
@@ -96,8 +97,9 @@ def main():
         parser.parse_string(sample_string)
 
         parsed_messages = parser.parsed_messages
-
+        # print(parsed_messages)
         for i, message in enumerate(parsed_messages):
+            print(message)
             print(f"Message {i + 1}:")
             for key, value in message.items():
                 if key == 'pools':
