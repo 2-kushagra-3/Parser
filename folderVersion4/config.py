@@ -53,7 +53,7 @@ SPECIFIC_FIELD_LENGTHS = {
         MessageField.FIELD_7: 10,
         MessageField.FIELD_8: 10,
         MessageField.NUMBER_OF_POOLS: 2,
-        MessageField.FIELD_10: 12,
+        MessageField.FIELD_10: 12
     }
 }
 

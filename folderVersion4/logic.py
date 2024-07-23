@@ -5,7 +5,6 @@ def add_decimal(value, position):
     return value[:position] + '.' + value[position:]
 
 def parse_message(message, field_lengths, pool_field_lengths=None, decimal_fields=None):
-    parsed_message = {}
     start_idx = 0
     num_pools = 0
 
@@ -17,31 +16,29 @@ def parse_message(message, field_lengths, pool_field_lengths=None, decimal_field
         if field in decimal_fields:
             position = decimal_fields[field]
             field_value = add_decimal(field_value, position)
-        parsed_message[field] = field_value
+        print(f"{field.value}: {field_value}")
         if field == MessageField.NUMBER_OF_POOLS:
             num_pools = int(field_value)
         start_idx += length
 
     if pool_field_lengths and num_pools > 0:
-        pools = []
-        for _ in range(num_pools):
+        print("Pools:")
+        for pool_index in range(num_pools):
             pool = {}
+            print(f"  Pool {pool_index + 1}:")
             for pool_field, pool_length in pool_field_lengths.items():
                 pool_field_value = message[start_idx:start_idx + pool_length]
                 if pool_field in decimal_fields:
                     position = decimal_fields[pool_field]
                     pool_field_value = add_decimal(pool_field_value, position)
-                pool[pool_field] = pool_field_value
+                print(f"    {pool_field.value}: {pool_field_value}")
                 start_idx += pool_length
-            pools.append(pool)
-        parsed_message['pools'] = pools
 
-    parsed_message[MessageField.END_MESSAGE_INDICATOR] = message[start_idx:]
-    return parsed_message
+    print(f"{MessageField.END_MESSAGE_INDICATOR.value}: {message[start_idx:]}")
+    return
 
 class MessageParser:
     def __init__(self):
-        self.parsed_messages = []
         self.parsers = {
             "AA": self.parse_AA,
             "CC": self.parse_CC,
@@ -68,21 +65,18 @@ class MessageParser:
     def parse_AA(self, message):
         field_lengths = {**COMMON_FIELD_LENGTHS, **SPECIFIC_FIELD_LENGTHS["AA"]}
         decimal_fields = DECIMAL_FIELDS["AA"]
-        parsed_message = parse_message(message, field_lengths, None, decimal_fields)
-        self.parsed_messages.append(parsed_message)
+        parse_message(message, field_lengths, None, decimal_fields)
 
     def parse_CC(self, message):
         field_lengths = {**COMMON_FIELD_LENGTHS, **SPECIFIC_FIELD_LENGTHS["CC"]}
         pool_field_lengths = POOL_FIELD_LENGTHS["CC"]
         decimal_fields = DECIMAL_FIELDS["CC"]
-        parsed_message = parse_message(message, field_lengths, pool_field_lengths, decimal_fields)
-        self.parsed_messages.append(parsed_message)
+        parse_message(message, field_lengths, pool_field_lengths, decimal_fields)
 
     def parse_default(self, message):
+        print("Using default parser")  # Print the message before parsing
         field_lengths = COMMON_FIELD_LENGTHS
-        parsed_message = parse_message(message, field_lengths)
-        parsed_message["Parsing Method"] = "Default"  # Adding message inside the parsed message
-        self.parsed_messages.append(parsed_message)
+        parse_message(message, field_lengths)
 
 def main():
     file_path = r"input.txt"
@@ -95,21 +89,6 @@ def main():
 
         parser = MessageParser()
         parser.parse_string(sample_string)
-
-        parsed_messages = parser.parsed_messages
-        # print(parsed_messages)
-        for i, message in enumerate(parsed_messages):
-            print(message)
-            print(f"Message {i + 1}:")
-            for key, value in message.items():
-                if key == 'pools':
-                    print("  Pools:")
-                    for j, pool in enumerate(value):
-                        print(f"    Pool {j + 1}:")
-                        for pool_key, pool_value in pool.items():
-                            print(f"      {pool_key.value}: {pool_value}")
-                else:
-                    print(f"  {key.value}: {value}")
 
 if __name__ == "__main__":
     main()
